@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         this.init()
         val navController = this.setupNavigation()
 
+        // TODO: Make server request and check if user credentials are still valid
         if (isUserAuthenticated()) navigateTo(navController, R.id.action_nav_main_to_nav_map) else navigateTo(navController, R.id.action_nav_main_to_nav_auth)
     }
 
