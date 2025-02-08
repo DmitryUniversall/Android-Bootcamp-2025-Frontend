@@ -13,7 +13,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
@@ -31,6 +30,7 @@ import ru.sicampus.bootcamp2025.ui.auth.AuthFragment
 import ru.sicampus.bootcamp2025.ui.list.ListFragment
 import ru.sicampus.bootcamp2025.ui.map.MapFragment
 import ru.sicampus.bootcamp2025.util.collectWithLifecycle
+import ru.sicampus.bootcamp2025.util.navigateTo
 
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
     private var _binding: FragmentProfileBinding? = null
@@ -122,27 +122,23 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             binding.error.visibility =
                 if (state is ProfileViewModel.State.Error) View.VISIBLE else View.GONE
         }
+
     }
-    fun subscribe2Logout(){
+
+    fun subscribe2Logout() {
         viewModel.action.collectWithLifecycle(this) { action ->
-            if(action is ProfileViewModel.Action.GotoAuth){
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.main, AuthFragment())
-                    .commitAllowingStateLoss()
+            if (action is ProfileViewModel.Action.GotoAuth) {
+                view?.let { navigateTo(it, R.id.action_nav_auth_to_nav_auth) } ?: throw IllegalStateException("View is null")
             }
         }
     }
-    fun subscribe2CropResult(){
+
+    fun subscribe2CropResult() {
 
     }
 
     private fun initButtons() {
         binding.fabMain.setOnClickListener(this::getCamera)
-        binding.mtbMain.setNavigationOnClickListener {
-            val transaction = parentFragmentManager.beginTransaction()  // TODO
-            transaction.replace(R.id.main, MapFragment())
-            transaction.commit()
-        }
         binding.materialButton.setOnClickListener(this::detach)
 
         binding.mtbMain.setOnMenuItemClickListener { item ->
@@ -162,21 +158,15 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 }
             }
         }
-        binding.secretButton.setOnClickListener { //TODO("go to ListFragment() with filter_type")
-            val listFragment = ListFragment().apply {
-                arguments = Bundle().apply {
-                    putString("filter_type", "all")
-                }
-            }
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.main, listFragment)
-                .addToBackStack(null)
-                .commit()
+        binding.secretButton.setOnClickListener {
+            view?.let { it1 -> navigateTo(it1, R.id.action_nav_profile_to_nav_user_list, Bundle().apply {
+                putString("filter_type", "all")
+            }) }
         }
     }
 
 
-    private fun getCamera(view: View?) {  // TODO
+    private fun getCamera(view: View?) {
         Toast.makeText(activity, "CAMERA", Toast.LENGTH_SHORT).show()
         startCrop()
     }
@@ -236,7 +226,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 ).show()
                 return@setOnClickListener
             }
-            Log.d("ProfileFragment", "${currentUser.departmentName}")
             val personEntity = PersonEntity(
                 email = updatedEmail,
                 info = updatedInfo,
@@ -248,7 +237,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 authorities = currentUser.authorities,
             )
             viewModel.changeDataByLogin(
-                personEntity = personEntity
+                personEntity
             )
 
             dialog.dismiss()

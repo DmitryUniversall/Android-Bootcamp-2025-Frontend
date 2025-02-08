@@ -34,6 +34,7 @@ import ru.sicampus.bootcamp2025.R
 import ru.sicampus.bootcamp2025.domain.map.DepartmentEntity
 import ru.sicampus.bootcamp2025.domain.map.PlaceEntity
 import ru.sicampus.bootcamp2025.ui.list.ListFragment
+import ru.sicampus.bootcamp2025.util.navigateTo
 
 
 class MapFragment() : Fragment(R.layout.fragment_map),
@@ -145,15 +146,7 @@ class MapFragment() : Fragment(R.layout.fragment_map),
         }
         dialog.findViewById<TextView>(R.id.check_people)?.setOnClickListener {
             //TODO("go to list fragment with filter_type")
-            val listFragment = ListFragment().apply {
-                arguments = Bundle().apply {
-                    putString("filter_type", "department")
-                }
-            }
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.main, listFragment)
-                .addToBackStack(null)
-                .commit()
+            view?.let { it1 -> navigateTo(it1, R.id.action_nav_map_to_nav_user_list, Bundle().apply { putString("filter_type", "department") }) }
         }
 
     }

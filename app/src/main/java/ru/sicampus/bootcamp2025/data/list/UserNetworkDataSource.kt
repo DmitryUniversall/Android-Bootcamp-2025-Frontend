@@ -38,7 +38,7 @@ class UserNetworkDataSource {
     ): Result<UserListPagingDto> = withContext(Dispatchers.IO) {
         runCatching {
             val encodedDepartmentName = departmentName.encodeURLPath()
-            val result = Network.client.get("$serverIp/api/person/$encodedDepartmentName/paginated?page=$pageNum&size=$pageSize") {
+            val result = Network.client.get("$serverIp/api/department/$encodedDepartmentName/persons/paginated?page=$pageNum&size=$pageSize") {
                 headers {
                     append(HttpHeaders.Authorization, token)
                 }
