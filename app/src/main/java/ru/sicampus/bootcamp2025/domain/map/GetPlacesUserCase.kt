@@ -7,7 +7,6 @@ class GetPlacesUserCase(
     private val mapRepo: MapRepo
 ) {
    operator suspend fun invoke(): Result<List<DepartmentEntity>> {
-       Log.d("zzz", "test4")
        return mapRepo.getPlaces()
    }
 }

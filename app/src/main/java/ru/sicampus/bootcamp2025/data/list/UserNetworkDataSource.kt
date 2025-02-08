@@ -47,6 +47,7 @@ class UserNetworkDataSource {
                 error("Status ${result.status}")
                 Log.e("UserNetworkDataSource", "Status ${result.status}")
             }
+            Log.d("UserNetworkDataSource", result.body())
             result.body()
         }
     }

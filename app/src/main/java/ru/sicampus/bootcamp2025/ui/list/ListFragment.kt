@@ -34,7 +34,10 @@ class ListFragment: Fragment(R.layout.fragment_list){
         viewBinding.refresh.setOnClickListener { adapter.refresh() }
 
         val filterType = arguments?.getString("filter_type", "all") ?: "all"
+        val departmentName = arguments?.getString("departmentName", "default") ?: "default"
         viewModel.setFilter(filterType)
+        viewModel.setDepartmentName(departmentName) // FIXME()
+
 
         Log.d("ListFragment", "filter added")
 

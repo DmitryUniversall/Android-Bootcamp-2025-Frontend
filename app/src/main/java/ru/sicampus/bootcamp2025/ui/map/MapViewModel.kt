@@ -26,7 +26,7 @@ class MapViewModel(
 ) : ViewModel() {
 //    private val _state = MutableStateFlow<State>(State.Loading)
 //    public val state = _state.asStateFlow()
-    private val _placesLiveData = MutableLiveData<List<DepartmentEntity>>()
+    private val _placesLiveData = MutableLiveData<List<DepartmentEntity>>() // TODO(Совместить в один state)
     val placesLiveData: LiveData<List<DepartmentEntity>> get() = _placesLiveData
     private val _selectedDepartment = MutableLiveData<DepartmentEntity?>()
     val selectedDepartment: LiveData<DepartmentEntity?> get() = _selectedDepartment
@@ -96,8 +96,4 @@ class MapViewModel(
             }
         }
     }
-//    sealed interface State {
-//        data object Loading : State
-//        data class Show() : State
-//    }
 }

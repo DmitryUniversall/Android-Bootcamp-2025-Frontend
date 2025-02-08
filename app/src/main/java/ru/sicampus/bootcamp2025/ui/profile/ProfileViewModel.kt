@@ -48,6 +48,7 @@ class ProfileViewModel(
                 },
                 onFailure = { throwable ->
                     Log.e("ProfileViewModel", "failed to get data ${throwable.message}")
+                    throwable.message?.let { error(it) }
                 }
             )
         }

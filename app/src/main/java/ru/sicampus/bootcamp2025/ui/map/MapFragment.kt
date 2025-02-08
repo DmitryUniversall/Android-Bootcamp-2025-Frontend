@@ -81,28 +81,8 @@ class MapFragment() : Fragment(R.layout.fragment_map),
 
         val startPoint = LatLng(55.7558, 37.6176)
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startPoint, 10f))
-        getLastLocation()
         viewModel.getPlaces()
 
-    }
-    private fun getLastLocation() {
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            fusedLocationClient.lastLocation
-                .addOnSuccessListener { location: Location? ->
-                    if (location != null) {
-                        val currentLatLng = LatLng(location.latitude, location.longitude)
-                        Log.d("ttest", "$currentLatLng")
-
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
-                } else {
-                    Log.e("MapFragment", "location is null")
-                    }
-            }
-        }
     }
 
 
@@ -119,7 +99,7 @@ class MapFragment() : Fragment(R.layout.fragment_map),
         return false
     }
 
-    private fun showPlaceDetails(department: DepartmentEntity) {
+    private fun showPlaceDetails(department: DepartmentEntity) { // TODO(binding)
         val place = department.place
         val dialog = BottomSheetDialog(requireContext())
         dialog.setContentView(R.layout.bottom_sheet_dialog)
@@ -130,14 +110,11 @@ class MapFragment() : Fragment(R.layout.fragment_map),
         Log.d("MapFragment", "${place.pathToImage}")
         dialog.findViewById<ImageView>(R.id.image)?.let {
             Glide.with(this)
-                .load(place.pathToImage) // TODO()
+                .load(place.pathToImage)
                 .placeholder(R.drawable.ic_photo)
                 .error(R.drawable.ic_back)
                 .into(it)
         }
-//        dialog.findViewById<ImageView>(R.id.image)?.let {
-//            imageService.setImage(it, place.pathToImage)
-//        }
         dialog.findViewById<TextView>(R.id.name)?.text = place.name
         dialog.findViewById<TextView>(R.id.address)?.text = place.address
         dialog.findViewById<TextView>(R.id.description)?.text = place.information
@@ -145,8 +122,10 @@ class MapFragment() : Fragment(R.layout.fragment_map),
             viewModel.changeDepartmentAttach(department.name)
         }
         dialog.findViewById<TextView>(R.id.check_people)?.setOnClickListener {
-            //TODO("go to list fragment with filter_type")
-            view?.let { it1 -> navigateTo(it1, R.id.action_nav_map_to_nav_user_list, Bundle().apply { putString("filter_type", "department") }) }
+            view?.let { it1 -> navigateTo(it1, R.id.action_nav_map_to_nav_user_list, Bundle().apply {
+                putString("filter_type", "department")
+                putString("departmentName", "${department.name}")
+            }) }
         }
 
     }

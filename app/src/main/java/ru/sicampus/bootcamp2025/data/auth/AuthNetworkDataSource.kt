@@ -57,7 +57,7 @@ object AuthNetworkDataSource {
                 }
                 if (result.status != HttpStatusCode.Created) {
                     val responseBody = result.bodyAsText()
-                    Log.w("bbb", "Status: ${result.status}, Body: ${result.body<String>()}")
+                    Log.w("AuthNetworkDataSource", "Status: ${result.status}, Body: ${result.body<String>()}")
                     error("Status ${result.status}: ${result.body<String>()}")
                 }
                 Unit

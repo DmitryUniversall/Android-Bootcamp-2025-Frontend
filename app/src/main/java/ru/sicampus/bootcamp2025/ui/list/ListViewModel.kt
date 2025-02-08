@@ -1,5 +1,6 @@
 package ru.sicampus.bootcamp2025.ui.list
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -18,11 +19,14 @@ class ListViewModel(
     private val getUsersUseCases: GetUsersUseCases,
     private val getUsersByDepartmentUserCase: GetUsersByDepartmentUserCase,
 ): ViewModel(){
-//    private val _state = MutableStateFlow<State>(State.Loading)
-//    public val state = _state.asStateFlow()
     private val _selectedFilter = MutableStateFlow("all")
     val selectedFilter = _selectedFilter.asStateFlow()
 
+    private var departmentName: String = "" // FIXME()
+
+    fun setDepartmentName(depName: String){
+        departmentName = depName
+    }
     fun setFilter(filter: String) {
         _selectedFilter.value = filter
     }
@@ -40,42 +44,10 @@ class ListViewModel(
         config = PagingConfig(pageSize = 20, enablePlaceholders = false, maxSize = 100)
     ) {
         ListPagingSource { pageNum, pageSize ->
-            getUsersByDepartmentUserCase.invoke("SomeDepartment", pageNum, pageSize)
+            Log.d("123", "${departmentName.toString()}")
+            getUsersByDepartmentUserCase.invoke("$departmentName", pageNum, pageSize)
         }
     }.flow.cachedIn(viewModelScope)
-//    init {
-//        updateState()
-//    }
-//
-//    fun clickRefresh(){
-//        updateState()
-//    }
-//
-//    private fun updateState() {
-//        viewModelScope.launch {
-//            _state.emit(State.Loading)
-//            _state.emit(
-//                getUsersUseCases.invoke().fold(
-//                    onSuccess = { data ->
-//                        State.Show(data)
-//                    },
-//                    onFailure = { error ->
-//                        State.Error(error.message.toString())
-//                    }
-//                )
-//            )
-//        }
-//    }
-
-//    sealed interface State {
-//        data object Loading: State
-//        data class Show(
-//            val items: List<UserEntity>
-//        ): State
-//        data class Error(
-//            val text: String
-//        ): State
-//    }
 
     companion object {
         var Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {

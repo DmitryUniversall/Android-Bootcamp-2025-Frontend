@@ -93,7 +93,7 @@ class AuthViewModel(
                     isUserExistUseCase(login).fold(
                         onSuccess = { isExist ->
                             isNewUser = isExist
-                            Log.w("bbb", isNewUser.toString())
+                            Log.w("AuthViewModel", isNewUser.toString())
                             updateState()
                         },
                         onFailure = { error ->
