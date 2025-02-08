@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import ru.sicampus.bootcamp2025.data.auth.storage.AuthStorageDataSource
+import ru.sicampus.bootcamp2025.data.profile.AuthorityDto
 import ru.sicampus.bootcamp2025.data.profile.PersonDto
 import ru.sicampus.bootcamp2025.data.profile.ProfileNetworkDataSource
 import ru.sicampus.bootcamp2025.data.profile.ProfileRepoImpl
@@ -61,17 +62,23 @@ class ProfileViewModel(
             _action.send(Action.GotoAuth)
         }
     }
-    fun changeDataByLogin(PersonEntity: PersonEntity) {
+    fun changeDataByLogin(personEntity: PersonEntity) {
         viewModelScope.launch {
             changeDataByLoginUserCase.invoke(
                 PersonDto(
-                    id = PersonEntity.id,
-                    name = PersonEntity.name,
-                    login = PersonEntity.login,
-                    email = PersonEntity.email,
-                    info = PersonEntity.info,
-                    phone = PersonEntity.phone,
-                    departmentName = PersonEntity.departmentName,
+                    id = personEntity.id,
+                    name = personEntity.name,
+                    login = personEntity.login,
+                    email = personEntity.email,
+                    info = personEntity.info,
+                    phone = personEntity.phone,
+                    departmentName = personEntity.departmentName ?: "NULL",
+                    authorities = personEntity.authorities.map { authorityEntity ->
+                        AuthorityDto(
+                            id = authorityEntity.id,
+                            authority = authorityEntity.authority
+                        )
+                    },
                 )
             ).fold(
                 onSuccess = {

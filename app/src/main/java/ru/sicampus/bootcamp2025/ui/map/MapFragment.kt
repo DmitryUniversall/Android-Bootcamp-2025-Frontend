@@ -33,6 +33,7 @@ import kotlinx.coroutines.launch
 import ru.sicampus.bootcamp2025.R
 import ru.sicampus.bootcamp2025.domain.map.DepartmentEntity
 import ru.sicampus.bootcamp2025.domain.map.PlaceEntity
+import ru.sicampus.bootcamp2025.ui.list.ListFragment
 
 
 class MapFragment() : Fragment(R.layout.fragment_map),
@@ -142,6 +143,19 @@ class MapFragment() : Fragment(R.layout.fragment_map),
         dialog.findViewById<TextView>(R.id.attach)?.setOnClickListener {
             viewModel.changeDepartmentAttach(department.name)
         }
+        dialog.findViewById<TextView>(R.id.check_people)?.setOnClickListener {
+            //TODO("go to list fragment with filter_type")
+            val listFragment = ListFragment().apply {
+                arguments = Bundle().apply {
+                    putString("filter_type", "department")
+                }
+            }
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main, listFragment)
+                .addToBackStack(null)
+                .commit()
+        }
+
     }
 
 }

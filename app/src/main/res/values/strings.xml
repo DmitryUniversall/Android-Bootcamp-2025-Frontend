@@ -22,4 +22,6 @@
     <string name="volunteer_center_user">Your volunteer center</string>
     <string name="detach_department"> Detach from department </string>
     <string name="Attached__the_center">Attached to the center</string>
+    <string name="secret_btn_text">Просмотр всех пользователей</string>
+    <string name="check">Check attached people</string>
 </resources>

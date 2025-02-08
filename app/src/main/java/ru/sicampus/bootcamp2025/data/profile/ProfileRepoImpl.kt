@@ -1,6 +1,7 @@
 package ru.sicampus.bootcamp2025.data.profile
 
 import ru.sicampus.bootcamp2025.data.auth.storage.AuthStorageDataSource
+import ru.sicampus.bootcamp2025.domain.profile.AuthorityEntity
 import ru.sicampus.bootcamp2025.domain.profile.PersonEntity
 import ru.sicampus.bootcamp2025.domain.profile.ProfileRepo
 
@@ -20,7 +21,13 @@ class ProfileRepoImpl(
                 email = dataDto.email,
                 info = dataDto.info ?: "",
                 phone = dataDto.phone ?: "",
-                departmentName = dataDto.departmentName ?: "",
+                departmentName = dataDto.departmentName ?: "NULL",
+                authorities = dataDto.authorities.map { authorityDto ->
+                    AuthorityEntity(
+                        id = authorityDto.id,
+                        authority = authorityDto.authority
+                    )
+                }
             )
         }
     }

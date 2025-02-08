@@ -25,5 +25,19 @@ class UserRepoImpl(
             } ?: return Result.failure(IllegalStateException("list parse error"))
         }
     }
+    override suspend fun getUsersByDepartmentName(departmentName: String, pageNum: Int, pageSize: Int): Result<List<UserEntity>> {
+        val token = authStorageDataSource.token
+            ?: return Result.failure(IllegalStateException("token is null"))
+        return userNetworkDataSource.getUsersByDepartmentName(departmentName,token, pageNum,pageSize).map { pagingdto ->
+            pagingdto.content?.mapNotNull { dto ->
+                UserEntity(
+                    id = dto.id ?: return@mapNotNull null,
+                    name = dto.name ?: return@mapNotNull null,
+                    email = dto.email ?: return@mapNotNull null,
+                    photoUrl = dto.photoUrl ?: return@mapNotNull null
+                )
+            } ?: return Result.failure(IllegalStateException("list parse error"))
+        }
+    }
 
 }

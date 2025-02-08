@@ -5,4 +5,9 @@ interface UserRepo {
         pageNum: Int,
         pageSize: Int
     ): Result<List<UserEntity>>
+    suspend fun getUsersByDepartmentName(
+        departmentName: String,
+        pageNum: Int,
+        pageSize: Int
+    ): Result<List<UserEntity>>
 }

@@ -34,6 +34,8 @@ class ProfileNetworkDataSource {
     }
     suspend fun changeDataByLogin(token: String, personDto: PersonDto): Result<Unit> = withContext(Dispatchers.IO) {
         runCatching {
+            Log.d("changedatabylogin", "${personDto.toString()}")
+            Log.d("changedatabylogin", "test")
             val result = Network.client.patch("$serverIp/api/person/me") {
                 headers {
                     append(HttpHeaders.Authorization, token)

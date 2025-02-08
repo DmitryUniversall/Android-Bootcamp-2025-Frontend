@@ -1,6 +1,7 @@
 package ru.sicampus.bootcamp2025.ui.list
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -8,6 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.viewbinding.ViewBinding
 import androidx.viewbinding.ViewBindings
 import kotlinx.coroutines.flow.collect
@@ -31,7 +33,27 @@ class ListFragment: Fragment(R.layout.fragment_list){
 
         viewBinding.refresh.setOnClickListener { adapter.refresh() }
 
+        val filterType = arguments?.getString("filter_type", "all") ?: "all"
+        viewModel.setFilter(filterType)
+
+        Log.d("ListFragment", "filter added")
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.selectedFilter.collect { filter ->
+                    adapter.submitData(PagingData.empty())
+                    when (filter) {
+                        "all" -> viewModel.listState.collect { data -> adapter.submitData(data) }
+                        "department" -> viewModel.departmentListState.collect { data -> adapter.submitData(data) }
+                    }
+                }
+            }
+        }
+
         viewModel.listState.collectWithLifecycle(this) { data ->
+            adapter.submitData(data)
+        }
+        viewModel.departmentListState.collectWithLifecycle(this) { data ->
             adapter.submitData(data)
         }
 
@@ -43,8 +65,10 @@ class ListFragment: Fragment(R.layout.fragment_list){
                 if (state is LoadState.Error) View.VISIBLE else View.GONE
             if (state is LoadState.Error) {
                 viewBinding.errorText.text = state.error.message.toString()
+                Log.d("ListFragment", "${state.error.printStackTrace()}")
             }
         }
+
     }
 
 

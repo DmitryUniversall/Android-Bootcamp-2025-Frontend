@@ -2,9 +2,10 @@ package ru.sicampus.bootcamp2025.data.profile
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import ru.sicampus.bootcamp2025.domain.profile.AuthorityEntity
 
 @Serializable
-data class PersonDto (
+data class PersonDto(
     @SerialName("id")
     val id: Long,
     @SerialName("name")
@@ -19,4 +20,6 @@ data class PersonDto (
     val phone: String?,
     @SerialName("departmentName")
     val departmentName: String?,
+    @SerialName("authorities")
+    val authorities: List<AuthorityDto>,
 )

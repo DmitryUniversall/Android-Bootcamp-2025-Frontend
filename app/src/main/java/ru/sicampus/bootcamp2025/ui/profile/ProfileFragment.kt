@@ -28,6 +28,7 @@ import ru.sicampus.bootcamp2025.R
 import ru.sicampus.bootcamp2025.databinding.FragmentProfileBinding
 import ru.sicampus.bootcamp2025.domain.profile.PersonEntity
 import ru.sicampus.bootcamp2025.ui.auth.AuthFragment
+import ru.sicampus.bootcamp2025.ui.list.ListFragment
 import ru.sicampus.bootcamp2025.ui.map.MapFragment
 import ru.sicampus.bootcamp2025.util.collectWithLifecycle
 
@@ -92,8 +93,11 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 currentUser = state.item
                 Log.d("ProfileFragment", "updated currentUser")
                 binding.emailMain.text = state.item.email
-                binding.departmentName.text = state.item.departmentName
-
+                if (state.item.departmentName != "NULL") {
+                    binding.departmentName.text = state.item.departmentName
+                } else {
+                    binding.departmentName.text = "Не указан"
+                }
                 if (state.item.phone == "") {
                     binding.phoneMain.text = "Не указан"
                 } else {
@@ -105,6 +109,11 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 } else {
                     binding.infoMain.text = state.item.info
                 }
+                if (state.item.authorities.any { it.authority == "ROLE_ADMIN" }){
+                    binding.secretButton.visibility = View.VISIBLE
+                } else {
+                    binding.secretButton.visibility = View.GONE
+                }
 
             }
             if (state is ProfileViewModel.State.Changed) {
@@ -113,7 +122,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             binding.error.visibility =
                 if (state is ProfileViewModel.State.Error) View.VISIBLE else View.GONE
         }
-
     }
     fun subscribe2Logout(){
         viewModel.action.collectWithLifecycle(this) { action ->
@@ -154,6 +162,17 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 }
             }
         }
+        binding.secretButton.setOnClickListener { //TODO("go to ListFragment() with filter_type")
+            val listFragment = ListFragment().apply {
+                arguments = Bundle().apply {
+                    putString("filter_type", "all")
+                }
+            }
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main, listFragment)
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
 
@@ -188,8 +207,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         }
     private fun detach(view: View?){
         var personEntity = currentUser.copy()
-        personEntity.departmentName = "Не указан"
-    viewModel.changeDataByLogin(PersonEntity = personEntity)
+        personEntity.departmentName = "NULL"
+    viewModel.changeDataByLogin(personEntity)
     }
     private fun editProfileData() {
         val dialog = BottomSheetDialog(requireContext())
@@ -217,7 +236,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 ).show()
                 return@setOnClickListener
             }
-            Log.d("ProfileFragment", "1 sec before error")
+            Log.d("ProfileFragment", "${currentUser.departmentName}")
             val personEntity = PersonEntity(
                 email = updatedEmail,
                 info = updatedInfo,
@@ -226,9 +245,10 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 name = updatedUsername,
                 id = currentUser.id,
                 departmentName = currentUser.departmentName,
+                authorities = currentUser.authorities,
             )
             viewModel.changeDataByLogin(
-                PersonEntity = personEntity
+                personEntity = personEntity
             )
 
             dialog.dismiss()

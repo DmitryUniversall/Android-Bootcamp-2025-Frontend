@@ -6,17 +6,26 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import ru.sicampus.bootcamp2025.data.auth.storage.AuthStorageDataSource
 import ru.sicampus.bootcamp2025.data.list.UserNetworkDataSource
 import ru.sicampus.bootcamp2025.data.list.UserRepoImpl
+import ru.sicampus.bootcamp2025.domain.list.GetUsersByDepartmentUserCase
 import ru.sicampus.bootcamp2025.domain.list.GetUsersUseCases
 
 class ListViewModel(
-    private val getUsersUseCases: GetUsersUseCases
+    private val getUsersUseCases: GetUsersUseCases,
+    private val getUsersByDepartmentUserCase: GetUsersByDepartmentUserCase,
 ): ViewModel(){
 //    private val _state = MutableStateFlow<State>(State.Loading)
 //    public val state = _state.asStateFlow()
+    private val _selectedFilter = MutableStateFlow("all")
+    val selectedFilter = _selectedFilter.asStateFlow()
 
+    fun setFilter(filter: String) {
+        _selectedFilter.value = filter
+    }
     val listState = Pager(
         config = PagingConfig(pageSize = 20,
         enablePlaceholders = false,
@@ -27,6 +36,13 @@ class ListViewModel(
     }.flow
         .cachedIn(viewModelScope)
 
+    val departmentListState = Pager(
+        config = PagingConfig(pageSize = 20, enablePlaceholders = false, maxSize = 100)
+    ) {
+        ListPagingSource { pageNum, pageSize ->
+            getUsersByDepartmentUserCase.invoke("SomeDepartment", pageNum, pageSize)
+        }
+    }.flow.cachedIn(viewModelScope)
 //    init {
 //        updateState()
 //    }
@@ -65,12 +81,17 @@ class ListViewModel(
         var Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                val repo = UserRepoImpl(
+                    userNetworkDataSource = UserNetworkDataSource(),
+                    authStorageDataSource = AuthStorageDataSource
+                )
                 return ListViewModel(
+
                     getUsersUseCases = GetUsersUseCases(
-                        repo = UserRepoImpl(
-                            userNetworkDataSource = UserNetworkDataSource(),
-                            authStorageDataSource = AuthStorageDataSource
-                        )
+                        repo
+                    ),
+                    getUsersByDepartmentUserCase = GetUsersByDepartmentUserCase(
+                        repo
                     )
                 ) as T
             }
