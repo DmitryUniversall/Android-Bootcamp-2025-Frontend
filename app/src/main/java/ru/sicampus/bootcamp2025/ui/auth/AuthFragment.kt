@@ -3,14 +3,17 @@ package ru.sicampus.bootcamp2025.ui.auth
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import ru.sicampus.bootcamp2025.R
 import ru.sicampus.bootcamp2025.databinding.FragmentAuthBinding
 import ru.sicampus.bootcamp2025.ui.auth.AuthViewModel.*
 import ru.sicampus.bootcamp2025.ui.profile.ProfileFragment
 import ru.sicampus.bootcamp2025.util.collectWithLifecycle
+import ru.sicampus.bootcamp2025.util.navigateTo
 
 class AuthFragment : Fragment(R.layout.fragment_auth) {
     private var _viewBinding: FragmentAuthBinding? = null
@@ -41,11 +44,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
 
         viewModel.action.collectWithLifecycle(this) { action ->
             when (action) {
-                Action.GotoList -> {
-                    parentFragmentManager.beginTransaction()
-                        .replace(R.id.main, ProfileFragment())
-                        .commitAllowingStateLoss()
-                }
+                Action.GotoList -> navigateTo(view, R.id.action_nav_auth_to_nav_profile)
             }
         }
 

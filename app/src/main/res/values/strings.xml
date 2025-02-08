@@ -22,4 +22,7 @@
     <string name="volunteer_center_user">Your volunteer center</string>
     <string name="detach_department"> Detach from department </string>
     <string name="Attached__the_center">Attached to the center</string>
+    <string name="map">Карта</string>
+    <string name="profile">Профиль</string>
+    <string name="auth">Авторизация</string>
 </resources>
