@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -26,9 +25,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import ru.sicampus.bootcamp2025.R
 import ru.sicampus.bootcamp2025.databinding.FragmentProfileBinding
 import ru.sicampus.bootcamp2025.domain.profile.PersonEntity
-import ru.sicampus.bootcamp2025.ui.auth.AuthFragment
-import ru.sicampus.bootcamp2025.ui.list.ListFragment
-import ru.sicampus.bootcamp2025.ui.map.MapFragment
 import ru.sicampus.bootcamp2025.util.collectWithLifecycle
 import ru.sicampus.bootcamp2025.util.navigateTo
 

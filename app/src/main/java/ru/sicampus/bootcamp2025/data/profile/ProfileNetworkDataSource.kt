@@ -19,7 +19,7 @@ class ProfileNetworkDataSource {
 
     suspend fun getMyProfileData(token: String): Result<PersonDto> = withContext(Dispatchers.IO){
         runCatching {
-            val result = Network.client.get("$serverIp/api/person/me") {//TODO() api path
+            val result = Network.client.get("$serverIp/api/person/me") {
                 headers {
                     append(HttpHeaders.Authorization, token)
                 }
