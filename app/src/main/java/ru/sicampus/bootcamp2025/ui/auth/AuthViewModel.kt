@@ -130,7 +130,7 @@ class AuthViewModel(
             buttonText = when (isNewUser) {
                 true -> getApplication<Application>().getString(R.string.signup)
                 false -> getApplication<Application>().getString(R.string.signin)
-                null -> getApplication<Application>().getString(R.string.login)
+                null -> getApplication<Application>().getString(R.string.enter_login)
             },
             errorText = error?.toString().toString(),
         )
@@ -150,7 +150,8 @@ class AuthViewModel(
         var Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
-                val application = extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]!!
+                val application =
+                    extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]!!
                 val authRepoImpl = AuthRepoImpl(
                     authNetworkDataSource = AuthNetworkDataSource,
                     authStorageDataSource = AuthStorageDataSource,

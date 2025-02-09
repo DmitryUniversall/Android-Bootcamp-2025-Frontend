@@ -2,7 +2,7 @@
     <string name="app_name">Android-Bootcamp-2025-Frontend</string>
     <string name="page_title">Username</string>
     <string name="fab_content_desc">Example description</string>
-    <string name="login">Enter your login</string>
+    <string name="enter_login">Enter your login</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
     <string name="refresh">Refresh</string>
@@ -27,4 +27,5 @@
     <string name="secret_btn_text">See all users</string>
     <string name="check_attached_people">Check attached people</string>
     <string name="image">Image</string>
+    <string name="continue_">Continue</string>
 </resources>
