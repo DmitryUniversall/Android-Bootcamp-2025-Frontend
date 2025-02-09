@@ -28,7 +28,7 @@ class MapRepoImpl(
                         latLng = LatLng(
                             department.place.latLng.split(" ")[0].toDouble(),
                             department.place.latLng.split(" ")[1].toDouble()
-                        )
+                        ),
                     )
                 )
             } ?: return Result.failure(IllegalStateException("list parse error"))

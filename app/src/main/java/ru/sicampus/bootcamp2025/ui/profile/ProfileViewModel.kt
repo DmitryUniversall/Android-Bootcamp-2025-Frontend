@@ -80,6 +80,7 @@ class ProfileViewModel(
                             authority = authorityEntity.authority
                         )
                     },
+                    photoUrl = personEntity.photoUrl
                 )
             ).fold(
                 onSuccess = {

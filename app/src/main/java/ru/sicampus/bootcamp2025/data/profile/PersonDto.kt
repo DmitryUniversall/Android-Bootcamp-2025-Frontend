@@ -14,6 +14,8 @@ data class PersonDto(
     val login: String,
     @SerialName("email")
     val email: String,
+    @SerialName("photoUrl")
+    val photoUrl: String,
     @SerialName("info")
     val info: String?,
     @SerialName("phone")

@@ -27,7 +27,8 @@ class ProfileRepoImpl(
                         id = authorityDto.id,
                         authority = authorityDto.authority
                     )
-                }
+                },
+                photoUrl = dataDto.photoUrl
             )
         }
     }

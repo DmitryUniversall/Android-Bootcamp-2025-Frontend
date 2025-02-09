@@ -110,6 +110,13 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 } else {
                     binding.secretButton.visibility = View.GONE
                 }
+                binding.avatar?.let {
+                    Glide.with(this@ProfileFragment)
+                        .load(state.item.photoUrl)
+                        .placeholder(R.drawable.ic_photo)
+                        .error(R.drawable.ic_back)
+                        .into(it)
+                }
 
             }
             if (state is ProfileViewModel.State.Changed) {
@@ -231,6 +238,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 id = currentUser.id,
                 departmentName = currentUser.departmentName,
                 authorities = currentUser.authorities,
+                photoUrl = currentUser.photoUrl
             )
             viewModel.changeDataByLogin(
                 personEntity

@@ -8,5 +8,6 @@ data class PersonEntity (
     val info: String,
     val phone: String,
     var departmentName: String?,
-    val authorities: List<AuthorityEntity>
+    val authorities: List<AuthorityEntity>,
+    val photoUrl: String
 )

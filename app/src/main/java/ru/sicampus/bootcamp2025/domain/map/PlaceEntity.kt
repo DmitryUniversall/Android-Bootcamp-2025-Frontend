@@ -9,6 +9,6 @@ data class PlaceEntity(
     var pathToImage: String,
     var address: String,
     var information: String,
-    var latLng: LatLng
+    var latLng: LatLng,
 ) {
 }
