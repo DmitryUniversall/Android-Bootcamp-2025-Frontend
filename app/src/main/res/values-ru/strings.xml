@@ -18,14 +18,14 @@
     <string name="EditProfile">Изменить данные</string>
     <string name="INFO_user">Дополнительная информация</string>
     <string name="name">Ваше имя</string>
-    <string name="volunteer_center_user">Your volunteer center</string>
+    <string name="volunteer_center_user">Ваш волонтерский центр</string>
     <string name="detach_department">"Открепится от своего волонтерского центра "</string>
     <string name="attached_to_the_center">Прикрепится к центру</string>
     <string name="map">Карта</string>
     <string name="profile">Профиль</string>
     <string name="auth">Авторизация</string>
     <string name="secret_btn_text">Просмотр всех пользователей</string>
-    <string name="check_attached_people">Check attached people</string>
+    <string name="check_attached_people">Проверить прикрепленных людей</string>
     <string name="image">Изображение</string>
     <string name="continue_">Продолжить</string>
 </resources>
