@@ -1,73 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:gravity="bottom">
-    <TextView
-        android:background="#FFFFFF"
-        android:id="@+id/name"
-        android:gravity="center"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:text="Название"
-        android:textSize="20sp"
-        android:textStyle="bold"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="bottom">
+
+    <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/colorBackground"
+            android:textColor="?attr/colorOnBackground"
+            android:gravity="center"
+            android:layout_margin="20dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="Title" />
 
     <ImageView
-        android:background="#FFFFFF"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:id="@+id/image"
-        android:layout_margin="20dp"/>
+            android:background="?android:attr/colorBackground"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:id="@+id/image"
+            android:layout_margin="20dp"
+            android:contentDescription="@string/image" />
 
     <TextView
-        android:background="#FFFFFF"
-        android:id="@+id/address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:drawableStart="@drawable/placeholder_icon"
-        android:drawablePadding="8dp"
+            android:background="?android:attr/colorBackground"
+            android:textColor="?attr/colorOnBackground"
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:drawablePadding="10dp"
+            android:textSize="20sp"
+            app:drawableStartCompat="@drawable/placeholder_icon"
+            tools:text="Address" />
 
-        android:text="Адрес"
-        android:textSize="20sp" />
     <TextView
-        android:background="#FFFFFF"
-        android:id="@+id/description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:text="Информация"
-        android:drawableStart="@drawable/free_icon_inofo_13054421"
-        android:drawablePadding="8dp"
-        android:textSize="20sp" />
+            android:background="?android:attr/colorBackground"
+            android:textColor="?attr/colorOnBackground"
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:drawablePadding="10dp"
+            android:textSize="20sp"
+            app:drawableStartCompat="@drawable/free_icon_inofo_13054421"
+            tools:text="Information" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/attach"
-        style="@style/Widget.Material3.Button.OutlinedButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/Attached__the_center"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:padding="12dp"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:id="@+id/attach"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/attached_to_the_center"
+            android:textColor="?attr/colorOnBackground"
+            android:textSize="16sp"
+            android:padding="12dp"
+            android:layout_margin="8dp"
+            android:gravity="center" />
 
-        android:layout_margin="8dp"
-        android:gravity="center" />
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/check_people"
-        style="@style/Widget.Material3.Button.OutlinedButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/check"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:padding="12dp"
-        android:layout_margin="8dp"
-        android:gravity="center" />
-
-
+            android:id="@+id/check_people"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/check_attached_people"
+            android:textColor="?attr/colorOnBackground"
+            android:textSize="16sp"
+            android:padding="12dp"
+            android:layout_margin="8dp"
+            android:gravity="center" />
 </LinearLayout>
