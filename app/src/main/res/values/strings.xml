@@ -28,4 +28,6 @@
     <string name="check_attached_people">Check attached people</string>
     <string name="image">Image</string>
     <string name="continue_">Continue</string>
+    <string name="phone_template" translatable="false">+*(**)**-**-**</string>
+    <string name="email_template" translatable="false">user@example.com</string>
 </resources>

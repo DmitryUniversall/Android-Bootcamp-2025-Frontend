@@ -12,7 +12,7 @@
     <string name="hello">Вход</string>
     <string name="button">Перейти</string>
     <string name="email">Почта</string>
-    <string name="infouser">Информация о вас</string>
+    <string name="infouser">Обо мне</string>
     <string name="phone">Телефон</string>
     <string name="SaveChanges">Сохранить изменения</string>
     <string name="EditProfile">Изменить данные</string>
