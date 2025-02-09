@@ -41,7 +41,9 @@ class MapViewModel(
             }
         }
     }
-
+    fun forgetDepartment(){
+        _selectedDepartment.value = null
+    }
     fun getDepartmentByName(name: String?) {
         viewModelScope.launch {
             getPlaceByNameUserCase.getPlaceByName(name.orEmpty()).fold(
@@ -69,7 +71,10 @@ class MapViewModel(
                 )
             ).fold(
                 onSuccess = { Log.d("MapViewModel", "onSuccess") },
-                onFailure = { Log.d("MapViewModel", "onFailure") },
+                onFailure = { throwable ->
+                    error(throwable)
+                    Log.d("MapViewModel", "onFailure")
+                    },
             )
         }
     }
