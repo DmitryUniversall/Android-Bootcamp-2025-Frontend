@@ -32,6 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:textSize="24dp"
         android:letterSpacing="0.05"
         android:background="?attr/selectableItemBackground"
         tools:text="@string/start"/>

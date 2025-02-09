@@ -54,6 +54,7 @@
         android:textColor="@color/black"
         android:textSize="16sp"
         android:padding="12dp"
+
         android:layout_margin="8dp"
         android:gravity="center" />
     <com.google.android.material.button.MaterialButton
