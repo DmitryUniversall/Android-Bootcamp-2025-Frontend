@@ -23,9 +23,8 @@ class ListViewModel(
     val selectedFilter = _selectedFilter.asStateFlow()
 
     private var departmentName: String = "" // FIXME()
-
     fun setDepartmentName(depName: String){
-        departmentName = depName
+    departmentName = depName
     }
     fun setFilter(filter: String) {
         _selectedFilter.value = filter

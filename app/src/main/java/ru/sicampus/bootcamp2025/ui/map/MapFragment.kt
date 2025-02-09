@@ -1,6 +1,7 @@
 package ru.sicampus.bootcamp2025.ui.map
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.location.Location
@@ -31,6 +32,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.launch
 import ru.sicampus.bootcamp2025.R
+import ru.sicampus.bootcamp2025.databinding.BottomSheetDialogBinding
 import ru.sicampus.bootcamp2025.domain.map.DepartmentEntity
 import ru.sicampus.bootcamp2025.domain.map.PlaceEntity
 import ru.sicampus.bootcamp2025.ui.list.ListFragment
@@ -45,8 +47,8 @@ class MapFragment() : Fragment(R.layout.fragment_map),
 
     private lateinit var googleMap: GoogleMap
     private val viewModel: MapViewModel by viewModels() { MapViewModel.Factory}
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
-
+    private var isDepartmentNotNull = true
+    private var detailsDialog: BottomSheetDialog? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.google_map) as? SupportMapFragment
@@ -66,9 +68,7 @@ class MapFragment() : Fragment(R.layout.fragment_map),
         }
         viewModel.selectedDepartment.observe(viewLifecycleOwner) { department ->
             if (department != null) {
-                showPlaceDetails(department)
-            } else {
-                Toast.makeText(requireContext(), "Place not found", Toast.LENGTH_SHORT).show()
+                showPlaceDetails(department, requireContext())
             }
         }
     }
@@ -85,9 +85,16 @@ class MapFragment() : Fragment(R.layout.fragment_map),
 
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.forgetDepartment()
+        detailsDialog?.dismiss()
 
+
+    }
     override fun onMapClick(latLng: LatLng) {
         Toast.makeText(requireContext(), "Coords: ${latLng.latitude} ${latLng.longitude}", Toast.LENGTH_SHORT).show()
+        viewModel.forgetDepartment()
     }
 
     override fun onMapLongClick(latLng: LatLng) {
@@ -99,35 +106,43 @@ class MapFragment() : Fragment(R.layout.fragment_map),
         return false
     }
 
-    private fun showPlaceDetails(department: DepartmentEntity) { // TODO(binding)
-        val place = department.place
-        val dialog = BottomSheetDialog(requireContext())
-        dialog.setContentView(R.layout.bottom_sheet_dialog)
-        dialog.window?.apply {
-            setBackgroundDrawableResource(android.R.color.transparent)
-        }
-        dialog.show()
-        Log.d("MapFragment", "${place.pathToImage}")
-        dialog.findViewById<ImageView>(R.id.image)?.let {
-            Glide.with(this)
-                .load(place.pathToImage)
-                .placeholder(R.drawable.ic_photo)
-                .error(R.drawable.ic_back)
-                .into(it)
-        }
-        dialog.findViewById<TextView>(R.id.name)?.text = place.name
-        dialog.findViewById<TextView>(R.id.address)?.text = place.address
-        dialog.findViewById<TextView>(R.id.description)?.text = place.information
-        dialog.findViewById<TextView>(R.id.attach)?.setOnClickListener {
-            viewModel.changeDepartmentAttach(department.name)
-        }
-        dialog.findViewById<TextView>(R.id.check_people)?.setOnClickListener {
-            view?.let { it1 -> navigateTo(it1, R.id.action_nav_map_to_nav_user_list, Bundle().apply {
-                putString("filter_type", "department")
-                putString("departmentName", "${department.name}")
-            }) }
-        }
+    private fun showPlaceDetails(department: DepartmentEntity, context: Context) {
+        detailsDialog?.dismiss()
 
+        val binding = BottomSheetDialogBinding.inflate(LayoutInflater.from(context))
+        val place = department.place
+        detailsDialog = BottomSheetDialog(context).apply {
+            setContentView(binding.root)
+            window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+            // Настройка содержимого диалога
+            binding.image?.let {
+                Glide.with(this@MapFragment)
+                    .load(place.pathToImage)
+                    .placeholder(R.drawable.ic_photo)
+                    .error(R.drawable.ic_back)
+                    .into(it)
+            }
+            binding.name.text = place.name
+            binding.address.text = place.address
+            binding.description.text = place.information
+
+            binding.attach.setOnClickListener {
+                binding.attach.text = "Вы прикреплены"
+                viewModel.changeDepartmentAttach(department.name)
+            }
+
+            binding.checkPeople.setOnClickListener {
+                viewModel.forgetDepartment()
+                view?.let { it1 -> navigateTo(it1, R.id.action_nav_map_to_nav_user_list, Bundle().apply {
+                    putString("filter_type", "department")
+                    putString("departmentName", department.name)
+                }) }
+            }
+
+            // Показываем диалог
+            show()
+        }
     }
 
 }
